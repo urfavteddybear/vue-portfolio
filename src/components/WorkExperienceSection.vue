@@ -15,7 +15,7 @@
           <span class="block w-0 h-1 bg-gradient-to-r from-maroon-500 to-maroon-700 mx-auto mt-2 group-hover:w-40 transition-all duration-500"></span>
         </h2>
         <p class="mx-auto max-w-2xl text-lg text-gray-600 hover:text-gray-700 transition-colors duration-300">
-          My journey in DevOps and software development
+          My professional journey from content creation to web development
         </p>
       </div>
 
@@ -63,7 +63,7 @@
                       {{ experience.duration }}
                     </span>
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700 group-hover/card:bg-gray-200 group-hover/card:scale-110 group-hover/card:-rotate-1 transition-all duration-300">
-                      {{ experience.type }}
+                      {{ experience.location }}
                     </span>
                   </div>
                 </div>
@@ -100,30 +100,63 @@
 const experiences = [
   {
     id: 1,
-    position: "DevOps Engineer",
-    company: "Tech Startup",
-    duration: "2023 - Present",
-    type: "Full-time",
-    description: "Led infrastructure automation and deployment strategies using Docker, Kubernetes, and CI/CD pipelines. Reduced deployment time by 70% and improved system reliability through monitoring and alerting systems.",
-    technologies: ["Docker", "Kubernetes", "AWS", "Jenkins", "Terraform", "Monitoring"]
+    company: "PT Bangun Inovasi Teknologi",
+    position: "Content Creator Internship",
+    duration: "2022 (6 months)",
+    location: "Work From Home",
+    description: "Collaborated with the marketing team to create engaging visual content for social media platforms. Focused on developing Instagram content that aligned with the company's brand identity and marketing objectives.",
+    achievements: [
+      "Created compelling Instagram content that increased engagement",
+      "Developed visual content strategy for social media campaigns",
+      "Collaborated effectively with team members in remote work environment",
+      "Maintained consistent brand identity across all content"
+    ],
+    technologies: ["Adobe Illustrator", "Canva", "Instagram"]
   },
   {
     id: 2,
-    position: "Backend Developer",
-    company: "Software Company",
-    duration: "2022 - 2023",
-    type: "Full-time",
-    description: "Developed and maintained server-side applications using modern frameworks. Implemented RESTful APIs, database optimization, and microservices architecture for scalable solutions.",
-    technologies: ["Node.js", "Express.js", "PHP", "MySQL", "Redis", "API Development"]
+    company: "EduKoding",
+    position: "Learning Module Developer Internship",
+    duration: "2022 (6 months)",
+    location: "Work From Home",
+    description: "Developed educational content and learning modules for students at EduKoding. Created interactive learning materials and visual designs to enhance the educational experience for programming students.",
+    achievements: [
+      "Designed and developed comprehensive learning modules for students",
+      "Created interactive educational content using visual programming tools",
+      "Collaborated with educational team to improve learning outcomes",
+      "Delivered high-quality educational materials within project timelines"
+    ],
+    technologies: ["Adobe Illustrator", "Scratch Desktop"]
   },
   {
     id: 3,
-    position: "Full Stack Developer",
-    company: "Digital Agency",
-    duration: "2021 - 2022",
-    type: "Contract",
-    description: "Built responsive web applications from concept to deployment. Collaborated with design teams to create user-friendly interfaces and robust backend systems.",
-    technologies: ["React", "Vue.js", "Laravel", "MySQL", "Bootstrap", "Git"]
+    company: "INSTIKI Developer Club",
+    position: "Backend Beginner Mentor",
+    duration: "2024 - 2025",
+    location: "INSTIKI",
+    description: "Mentored students in backend development fundamentals through campus extracurricular activities. Taught API development, database design, and server-side programming concepts to help students build strong foundation in backend technologies.",
+    achievements: [
+      "Mentored beginner students in backend development concepts and practices",
+      "Designed and delivered comprehensive curriculum for API development",
+      "Taught database design principles and MySQL implementation",
+      "Guided students through hands-on projects and real-world applications"
+    ],
+    technologies: ["PHP", "MySQL", "API"]
+  },
+  {
+    id: 4,
+    company: "PT Invilove Digital",
+    position: "Wedding Invitation Maker",
+    duration: "2024 - Present",
+    location: "Work From Home",
+    description: "Creating beautiful and personalized wedding invitations for clients using WordPress platform. Combining web development skills with creative design to deliver unique digital invitation experiences that capture couples' special moments.",
+    achievements: [
+      "Designed and developed custom wedding invitations using WordPress",
+      "Enhanced invitation designs with professional photo editing techniques",
+      "Delivered personalized invitation solutions for diverse client requirements",
+      "Maintained high client satisfaction through creative and timely delivery"
+    ],
+    technologies: ["WordPress", "Adobe Photoshop", "Elementor"]
   }
 ]
 </script>
