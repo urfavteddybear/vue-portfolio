@@ -128,8 +128,9 @@ export async function getBlogPosts(): Promise<{ articles: Article[], error: stri
     const data: BlogApiResponse = await response.json()
 
     if (data.success && data.posts) {
-      // Take top 4 posts and transform them
+      // Sort posts by date (newest first) and take top 4
       const articles = data.posts
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .slice(0, 4)
         .map((post, index) => transformBlogPost(post, index))
       
