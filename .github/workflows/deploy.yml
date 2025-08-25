@@ -17,10 +17,10 @@ jobs:
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.VPS_HOST }}
-        username: devops
+        username: root
         key: ${{ secrets.VPS_KEY }}
         script: |
-          cd /home/devops/prod/vue-portfolio
+          cd /root/web/vue-portfolio
           git pull origin main
           npm ci
           npm run build
