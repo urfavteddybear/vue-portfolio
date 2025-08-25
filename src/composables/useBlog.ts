@@ -64,88 +64,94 @@ const transformBlogPost = (post: BlogPost, index: number): Article => ({
   featured: index < 2 // Mark first 2 posts as featured
 })
 
-// Fallback articles if API fails
-const getFallbackArticles = (): Article[] => [
-  {
-    id: 'fallback-1',
-    title: "DevOps Best Practices for Modern Applications",
-    excerpt: "Exploring containerization, orchestration, and CI/CD pipelines for scalable infrastructure solutions.",
-    date: "2024-12-01",
-    category: "DevOps",
-    url: "https://blog.wahyuputra.biz.id/",
-    featured: true
-  },
-  {
-    id: 'fallback-2',
-    title: "Linux Server Administration Guide",
-    excerpt: "A comprehensive guide to managing Linux servers, security hardening, and performance optimization.",
-    date: "2024-11-15",
-    category: "Linux",
-    url: "https://blog.wahyuputra.biz.id/",
-    featured: true
-  },
-  {
-    id: 'fallback-3',
-    title: "Docker Container Security Best Practices",
-    excerpt: "Learn how to secure Docker containers in production environments with proven security practices.",
-    date: "2024-10-20",
-    category: "Docker",
-    url: "https://blog.wahyuputra.biz.id/",
-    featured: false
-  },
-  {
-    id: 'fallback-4',
-    title: "Kubernetes Cluster Management Essentials",
-    excerpt: "Essential techniques for managing and monitoring Kubernetes clusters in production.",
-    date: "2024-09-15",
-    category: "Kubernetes",
-    url: "https://blog.wahyuputra.biz.id/",
-    featured: false
-  }
-]
-
 export async function getBlogPosts(): Promise<{ articles: Article[], error: string | null }> {
   try {
-    // Use proxy in development, direct API in production
-    const apiUrl = import.meta.env.DEV 
-      ? '/api/blog' 
-      : 'https://blog.wahyuputra.biz.id/api/posts'
+    // Use proxy in development, try multiple approaches in production
+    let finalUrl: string
+    let fetchOptions: RequestInit
     
-    // Fetch from external API
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Portfolio-Site/1.0',
-      },
-    })
+    if (import.meta.env.DEV) {
+      // Development - use Vite proxy
+      finalUrl = '/api/blog'
+      fetchOptions = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        cache: 'no-cache'
+      }
+    } else {
+      // Production - try CORS proxy first, then direct
+      const timestamp = Date.now()
+      
+      // Try using allorigins.win as CORS proxy
+      finalUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://blog.wahyuputra.biz.id/api/posts?t=${timestamp}`)}`
+      fetchOptions = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+        cache: 'no-cache'
+      }
+    }
+    
+    console.log('Environment:', import.meta.env.DEV ? 'development' : 'production')
+    console.log('Fetching from URL:', finalUrl)
+    
+    const response = await fetch(finalUrl, fetchOptions)
+
+    console.log('Response status:', response.status)
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      console.error('API response not OK:', response.status, response.statusText)
+      throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`)
     }
 
-    const data: BlogApiResponse = await response.json()
+    let data: BlogApiResponse
 
-    if (data.success && data.posts) {
+    if (import.meta.env.DEV) {
+      // Development - direct API response
+      data = await response.json()
+    } else {
+      // Production - unwrap from CORS proxy
+      const proxyResponse = await response.json()
+      if (proxyResponse.status && proxyResponse.status.http_code === 200) {
+        data = JSON.parse(proxyResponse.contents)
+      } else {
+        throw new Error('CORS proxy failed')
+      }
+    }
+    
+    console.log('API data received:', data)
+
+    if (data.success && data.posts && Array.isArray(data.posts)) {
+      console.log('Number of posts received:', data.posts.length)
+      
       // Sort posts by date (newest first) and take top 4
       const articles = data.posts
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .sort((a, b) => {
+          const dateA = new Date(a.date).getTime()
+          const dateB = new Date(b.date).getTime()
+          console.log(`Sorting: ${a.title} (${a.date}) vs ${b.title} (${b.date})`)
+          return dateB - dateA // Newest first
+        })
         .slice(0, 4)
         .map((post, index) => transformBlogPost(post, index))
       
+      console.log('Final articles after sorting:', articles.map(a => ({ title: a.title, date: a.date })))
       return { articles, error: null }
     } else {
-      throw new Error('Invalid API response format')
+      console.error('Invalid API response format:', data)
+      throw new Error(`Invalid API response format: ${JSON.stringify(data)}`)
     }
   } catch (error) {
     console.error('Error fetching blog posts:', error)
     
-    // Return fallback content
-    const fallbackArticles = getFallbackArticles()
+    // Return empty array and show error instead of fallback
     return { 
-      articles: fallbackArticles, 
-      error: null // Don't show error to user, just use fallback
+      articles: [], 
+      error: `Failed to load articles: ${error instanceof Error ? error.message : 'Unknown error'}`
     }
   }
 }
