@@ -108,7 +108,7 @@
           </a>
           
           <a
-            href="https://twitter.com/wahyuputraaaa_"
+            href="https://x.com/wahyuputraaaa_"
             target="_blank"
             rel="noopener noreferrer"
             class="group w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2"
