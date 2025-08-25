@@ -97,7 +97,7 @@
           </a>
           
           <a
-            href="https://linkedin.com/in/wahyuputra"
+            href="https://www.linkedin.com/in/i-gede-made-sasmita-wahyu-putra-885347150/"
             target="_blank"
             rel="noopener noreferrer"
             class="group w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-600 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2"
@@ -108,7 +108,7 @@
           </a>
           
           <a
-            href="https://twitter.com/wahyuputra"
+            href="https://twitter.com/wahyuputraaaa_"
             target="_blank"
             rel="noopener noreferrer"
             class="group w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2"
