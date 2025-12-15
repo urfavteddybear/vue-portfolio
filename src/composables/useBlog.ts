@@ -82,9 +82,8 @@ export async function getBlogPosts(): Promise<{ articles: Article[], error: stri
         cache: 'no-cache'
       }
     } else {
-      // Production - direct fetch to public JSON with cache busting
-      const timestamp = Date.now()
-      finalUrl = `https://blog.wahyuputra.biz.id/posts.json?t=${timestamp}`
+      // Production - direct fetch to public JSON
+      finalUrl = `https://blog.wahyuputra.biz.id/posts.json`
       fetchOptions = {
         method: 'GET',
         headers: {
