@@ -13,10 +13,9 @@ export default defineConfig({
     port: 3000,
     open: true,
     proxy: {
-      '/api/blog': {
+      '/posts.json': {
         target: 'https://blog.wahyuputra.biz.id',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/blog/, '/api/posts'),
         secure: true
       }
     }

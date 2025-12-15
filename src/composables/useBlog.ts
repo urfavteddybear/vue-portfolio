@@ -72,7 +72,7 @@ export async function getBlogPosts(): Promise<{ articles: Article[], error: stri
     
     if (import.meta.env.DEV) {
       // Development - use Vite proxy
-      finalUrl = '/api/blog'
+      finalUrl = '/posts.json'
       fetchOptions = {
         method: 'GET',
         headers: {
@@ -86,7 +86,7 @@ export async function getBlogPosts(): Promise<{ articles: Article[], error: stri
       const timestamp = Date.now()
       
       // Try using allorigins.win as CORS proxy
-      finalUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://blog.wahyuputra.biz.id/api/posts?t=${timestamp}`)}`
+      finalUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://blog.wahyuputra.biz.id/posts.json?t=${timestamp}`)}`
       fetchOptions = {
         method: 'GET',
         headers: {
