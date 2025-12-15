@@ -82,11 +82,9 @@ export async function getBlogPosts(): Promise<{ articles: Article[], error: stri
         cache: 'no-cache'
       }
     } else {
-      // Production - try CORS proxy first, then direct
+      // Production - direct fetch to public JSON with cache busting
       const timestamp = Date.now()
-      
-      // Try using allorigins.win as CORS proxy
-      finalUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://blog.wahyuputra.biz.id/posts.json?t=${timestamp}`)}`
+      finalUrl = `https://blog.wahyuputra.biz.id/posts.json?t=${timestamp}`
       fetchOptions = {
         method: 'GET',
         headers: {
@@ -110,18 +108,8 @@ export async function getBlogPosts(): Promise<{ articles: Article[], error: stri
 
     let data: BlogApiResponse
 
-    if (import.meta.env.DEV) {
-      // Development - direct API response
-      data = await response.json()
-    } else {
-      // Production - unwrap from CORS proxy
-      const proxyResponse = await response.json()
-      if (proxyResponse.status && proxyResponse.status.http_code === 200) {
-        data = JSON.parse(proxyResponse.contents)
-      } else {
-        throw new Error('CORS proxy failed')
-      }
-    }
+    // Direct API response (same for both dev and production now)
+    data = await response.json()
     
     console.log('API data received:', data)
 
